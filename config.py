@@ -2,7 +2,11 @@ import os
 import contextvars
 from dotenv import load_dotenv
 
-load_dotenv()
+# Production: config is read from the real OS environment variables.
+# Local dev: a .env file may supply them, but it never overrides values
+# already set in the OS environment (override=False). If no .env exists
+# this is a harmless no-op.
+load_dotenv(override=False)
 
 def _require(key: str) -> str:
     value = os.getenv(key)
@@ -14,6 +18,7 @@ BASE_URL    = _require("BASE_URL")
 USAGE_URL   = _require("USAGE_URL")
 API_VERSION = os.getenv("VERSION", "v1")
 PORT        = int(os.getenv("PORT", "5000"))
+LOG_LEVEL   = os.getenv("LOG_LEVEL", "INFO").upper()
 
 # ── Request-scoped user id ────────────────────────────────────────────────────
 # The user id is supplied per-request via the `x-user-id` header (NOT from env).
