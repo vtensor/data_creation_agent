@@ -11,8 +11,8 @@ These tables are pre-seeded. The pipeline never creates master data — only rea
 """
 
 import logging
-from data_creation_agent.src.api.client import get_object_id, get_records
-from data_creation_agent.src.api.exceptions import LookupError as MasterLookupError
+from src.api.client import get_object_id, get_records
+from src.api.exceptions import LookupError as MasterLookupError
 
 log = logging.getLogger(__name__)
 

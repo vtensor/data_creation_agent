@@ -9,11 +9,11 @@ EXCEPTION: uom_id, weight_uom use string *_id values.
 """
 
 import logging
-from data_creation_agent.src.api.client import get_object_id, create_record
-from data_creation_agent.src.api.helpers import (
+from src.api.client import get_object_id, create_record
+from src.api.helpers import (
     today, gen_grn_id, gen_grn_line_id, gen_grn_number, get_optional,
 )
-from data_creation_agent.src.lookups.master import lookup_gl_account_id, lookup_item_id, lookup_weight_uom_id
+from src.lookups.master import lookup_gl_account_id, lookup_item_id, lookup_weight_uom_id
 
 log = logging.getLogger(__name__)
 STEP = "Step 4 | GRN"

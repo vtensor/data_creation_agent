@@ -9,8 +9,8 @@ import requests
 from functools import lru_cache
 from typing import Any
 
-import data_creation_agent.config as config
-from data_creation_agent.src.api.exceptions import APIError
+import config
+from src.api.exceptions import APIError
 
 log = logging.getLogger(__name__)
 

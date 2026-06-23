@@ -7,10 +7,10 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Any
 
-import data_creation_agent.config as config
-from data_creation_agent.src.pipeline import run_pipeline
-from data_creation_agent.src.api.exceptions import APIError, ValidationError
-from data_creation_agent.src.api.exceptions import LookupError as MasterLookupError
+import config
+from src.pipeline import run_pipeline
+from src.api.exceptions import APIError, ValidationError
+from src.api.exceptions import LookupError as MasterLookupError
 
 router = APIRouter(prefix="/api/v1")
 

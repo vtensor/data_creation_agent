@@ -5,8 +5,8 @@ Entry point — create FastAPI app, include router, run with uvicorn.
 import logging
 import uvicorn
 from fastapi import FastAPI
-import data_creation_agent.config as config
-from data_creation_agent.src.routes import router
+import config
+from src.routes import router
 
 logging.basicConfig(
     level=logging.DEBUG,

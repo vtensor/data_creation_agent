@@ -81,7 +81,7 @@ def require(data: dict, *keys, label: str = "") -> object:
     Safely walk nested dict keys; raise ValidationError with a clear path if missing.
     Usage: require(invoice_data, "static", "supplier_details", "gstin")
     """
-    from data_creation_agent.src.api.exceptions import ValidationError
+    from src.api.exceptions import ValidationError
     current = data
     path    = label or ".".join(str(k) for k in keys)
     for key in keys:

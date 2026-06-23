@@ -10,13 +10,13 @@ EXCEPTION: currency_id, payment_terms_ref, hsn_id, uom_id use string *_id values
 """
 
 import logging
-from data_creation_agent.src.api.client import get_object_id, get_records, create_record
-from data_creation_agent.src.api.helpers import (
+from src.api.client import get_object_id, get_records, create_record
+from src.api.helpers import (
     today, gen_po_id, gen_po_line_id,
     require, get_optional,
 )
-import data_creation_agent.config as config
-from data_creation_agent.src.lookups.master import (
+import config
+from src.lookups.master import (
     lookup_currency_id,
     lookup_payment_term_id,
     lookup_plant_id,

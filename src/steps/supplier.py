@@ -9,13 +9,13 @@ Cross-table refs must use the system UUID `id` field, not the human-readable sup
 """
 
 import logging
-from data_creation_agent.src.api.client import get_object_id, get_records, create_record
-from data_creation_agent.src.api.helpers import (
+from src.api.client import get_object_id, get_records, create_record
+from src.api.helpers import (
     pan_from_gstin, today,
     gen_supplier_id, gen_supplier_code, gen_supplier_site_id,
     require, get_optional,
 )
-from data_creation_agent.src.lookups.master import lookup_country_id, lookup_state_id
+from src.lookups.master import lookup_country_id, lookup_state_id
 
 log = logging.getLogger(__name__)
 STEP = "Step 1 | Supplier"

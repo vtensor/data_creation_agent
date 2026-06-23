@@ -7,12 +7,12 @@ No global state, no re-fetching of upstream data.
 
 import traceback
 
-from data_creation_agent.src.steps.supplier      import handle_supplier
-from data_creation_agent.src.steps.legal_entity  import handle_legal_entity
-from data_creation_agent.src.steps.po            import handle_po
-from data_creation_agent.src.steps.grn           import handle_grn
-from data_creation_agent.src.api.exceptions      import APIError, ValidationError
-from data_creation_agent.src.api.exceptions      import LookupError as MasterLookupError
+from src.steps.supplier      import handle_supplier
+from src.steps.legal_entity  import handle_legal_entity
+from src.steps.po            import handle_po
+from src.steps.grn           import handle_grn
+from src.api.exceptions      import APIError, ValidationError
+from src.api.exceptions      import LookupError as MasterLookupError
 
 
 def run_pipeline(invoice_data: dict) -> dict:
