@@ -2,11 +2,12 @@
 API routes — FastAPI router, included in main.py.
 """
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Header
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Any
 
+import data_creation_agent.config as config
 from data_creation_agent.src.pipeline import run_pipeline
 from data_creation_agent.src.api.exceptions import APIError, ValidationError
 from data_creation_agent.src.api.exceptions import LookupError as MasterLookupError
@@ -19,9 +20,15 @@ class InvoiceRequest(BaseModel):
 
 
 @router.post("/process-invoice")
-async def process_invoice(body: InvoiceRequest):
+async def process_invoice(
+    body: InvoiceRequest,
+    x_user_id: str = Header(None, alias="x-user-id"),
+):
     """
     POST /api/v1/process-invoice
+
+    Headers:
+        x-user-id: <user id>   — required; used for record ownership / created_by
 
     Request body (JSON):
     {
@@ -47,6 +54,10 @@ async def process_invoice(body: InvoiceRequest):
         502 — upstream API error
         500 — unexpected server error
     """
+    if not x_user_id or not x_user_id.strip():
+        return _error(400, "MISSING_USER_ID", "x-user-id header is required")
+    config.set_user_id(x_user_id.strip())
+
     try:
         result = run_pipeline(body.invoice_data)
         return {"success": True, "data": result}

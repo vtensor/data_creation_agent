@@ -235,7 +235,7 @@ def handle_po(
         "payment_terms_ref":             payment_term_id,     # string payment_term_id
         "po_total_value":                float(total_val),
         "po_status":                     "APPROVED",
-        "po_created_by":                 config.USER_ID,
+        "po_created_by":                 config.get_user_id(),
         "matching_type":                 "THREE_WAY",
         "supplier_ref":                  supplier_id,         # UUID id of SUPPLIER
         "supplier_site_ref":             supplier_site_id,    # UUID id of SUPPLIER_SITE

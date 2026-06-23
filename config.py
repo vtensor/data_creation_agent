@@ -1,4 +1,5 @@
 import os
+import contextvars
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,6 +12,23 @@ def _require(key: str) -> str:
 
 BASE_URL    = _require("BASE_URL")
 USAGE_URL   = _require("USAGE_URL")
-API_VERSION = os.getenv("API_VERSION", "v1")
-USER_ID     = _require("USER_ID")
+API_VERSION = os.getenv("VERSION", "v1")
 PORT        = int(os.getenv("PORT", "5000"))
+
+# ── Request-scoped user id ────────────────────────────────────────────────────
+# The user id is supplied per-request via the `x-user-id` header (NOT from env).
+# The route sets it at the start of each request; downstream code reads it back.
+_current_user_id: "contextvars.ContextVar[str | None]" = contextvars.ContextVar(
+    "current_user_id", default=None
+)
+
+
+def set_user_id(user_id: str) -> None:
+    _current_user_id.set(user_id)
+
+
+def get_user_id() -> str:
+    user_id = _current_user_id.get()
+    if not user_id:
+        raise EnvironmentError("user id is not set for this request (missing x-user-id header)")
+    return user_id

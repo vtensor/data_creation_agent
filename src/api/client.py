@@ -14,10 +14,14 @@ from data_creation_agent.src.api.exceptions import APIError
 
 log = logging.getLogger(__name__)
 
-_HEADERS_GET = {
-    "Content-Type": "application/json;charset=UTF-8",
-    "Accept":       "application/json",
-}
+def _headers_get() -> dict:
+    # The per-request user id (from the x-user-id header) is sent on every
+    # internal API call, reads included.
+    return {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Accept":       "application/json",
+        "userId":       config.get_user_id(),
+    }
 
 
 def _headers_post() -> dict:
@@ -25,7 +29,7 @@ def _headers_post() -> dict:
     # multipart/form-data (with boundary) when using files=
     return {
         "Accept":  "application/json",
-        "userId":  config.USER_ID,
+        "userId":  config.get_user_id(),
     }
 
 
@@ -40,7 +44,7 @@ def get_object_id(api_name: str) -> str:
     url = f"{config.BASE_URL}/{config.API_VERSION}/object/api-name/{api_name}"
     log.debug("[get_object_id] GET %s", url)
     try:
-        resp = requests.get(url, headers=_HEADERS_GET, timeout=10)
+        resp = requests.get(url, headers=_headers_get(), timeout=10)
     except requests.exceptions.ConnectionError as e:
         log.error("[get_object_id] Connection failed for %s: %s", api_name, e)
         raise APIError("get_object_id", api_name, f"Connection failed: {e}")
@@ -93,7 +97,7 @@ def get_records(
     url = f"{config.USAGE_URL}/{config.API_VERSION}/object/{object_id}/data"
     log.debug("[get_records] GET %s | params: %s", url, params)
     try:
-        resp = requests.get(url, params=params, headers=_HEADERS_GET, timeout=30)
+        resp = requests.get(url, params=params, headers=_headers_get(), timeout=30)
     except requests.exceptions.ConnectionError as e:
         log.error("[get_records] Connection failed for %s: %s", table_name, e)
         raise APIError("get_records", table_name, f"Connection failed: {e}")
